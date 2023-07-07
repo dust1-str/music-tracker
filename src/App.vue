@@ -4,6 +4,7 @@ import { ref } from 'vue';
 let cancion = ref('');
 let artist = ref('');
 let album = ref('');
+let backgroundImageUrl = ref('');
 let mostrar = ref(false);
 
 const api_key = 'aaf389a634e7bd8ed80372639d5f3c49';
@@ -31,6 +32,7 @@ const getAlbum = (value) => {
   let image = value.recenttracks.track[0].image[2]
   let images = Object.values(image);
   album.value = images[1];
+  backgroundImageUrl.value = images[1];
 };
 
 setInterval(getSong, 3000)
@@ -45,7 +47,7 @@ setInterval(getSong, 3000)
       </Transition>
     </div>
     <Transition>
-      <div v-show="mostrar" class="info">
+      <div :style="{ backgroundImage: `url('${backgroundImageUrl}')`,backgroundSize: '150%', backgroundPosition: 'center'} " v-show="mostrar" class="info">
       <Transition>
         <p v-show="cancion">{{ cancion }}</p>
       </Transition>
@@ -71,6 +73,7 @@ setInterval(getSong, 3000)
   width: min-content;
   border-radius: 10px;
   box-shadow: 8px 6px 10px rgb(43, 43, 43);
+  z-index: 1;
 }
 
 .info {
